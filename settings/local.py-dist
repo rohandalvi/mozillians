@@ -10,7 +10,7 @@ PORT = 8001
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
         'NAME': 'mozillians',
         'USER': 'root',
         'PASSWORD': '',
