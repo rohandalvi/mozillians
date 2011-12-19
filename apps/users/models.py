@@ -12,6 +12,7 @@ from tower import ugettext as _
 
 import larper
 from groups.models import Group
+from locations.models import Address
 from phonebook.models import get_random_string
 
 
@@ -101,8 +102,13 @@ class UserProfile(models.Model):
 
 
 @receiver(models.signals.post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_related_objects(sender, instance, created, **kwargs):
+    """Create all _required_ related objects for a given User object.
+
+    Basically, any OneToOne objects related to User should be created here.
+    """
     if created:
+        address = Address.objects.create(user=instance)
         profile = UserProfile.objects.create(user=instance)
 
 

@@ -3,13 +3,15 @@ import subprocess
 
 from django import test
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
 import test_utils
 from nose.tools import eq_
 
-from funfactory.urlresolvers import reverse
 from funfactory.manage import path
+from funfactory.urlresolvers import reverse
 
+from locations.models import Address
 from users import cron
 
 # The test data (below in module constants) must match data in
@@ -52,6 +54,12 @@ def mozillian_client(email, password=PASSWORD):
     # so we manually login with a POST request. (TODO: Fix this.)
     data = dict(username=email, password=password)
     user = authenticate(**data)
+
+    # TODO: OMG HAX WTF?
+    user, created = User.objects.get_or_create(username=email)
+    cron.create_missing_profiles()
+    Address.objects.get_or_create(user=user)
+
     user.get_profile().is_confirmed = True
     user.get_profile().save()
     # This login never works

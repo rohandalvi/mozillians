@@ -148,11 +148,19 @@ def _edit_profile(request, new_account):
                        last_name=person.last_name,
                        biography=person.biography,
                        website=profile.website,
-                       groups=user_groups)
+                       groups=user_groups,
+                       street=request.user.address.street,
+                       city=request.user.address.city,
+                       province=request.user.address.province,
+                       postal_code=request.user.address.postal_code,
+                       country=(request.user.address.country.id
+                                if request.user.address.country else None))
 
         initial.update(_get_services_fields(ldap, unique_id,
                                             use_master=True))
-        form = forms.ProfileForm(initial=initial)
+        # locale = (settings.LANGUAGE_URL_MAP.get(translation.get_language())
+        #           or translation.get_language())
+        form = forms.ProfileForm(initial=initial, locale='fr')
 
     d = dict(form=form,
              delete_form=del_form,
