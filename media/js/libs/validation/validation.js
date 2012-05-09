@@ -11,10 +11,18 @@ var Validator = function() {
         control_group.addClass('error')
         control_group.children('span.help-inline').remove()
         control_group.find('p.help-block').before(error_message.text(message))
-
+			alert(message);
 
         this.errors = true;
-    }
+			
+    },
+	var displayAnotherError = function(field, message) {
+    var group = field.parents('.groups-tagit')
+    group.addClass('error')
+    group.children('span.help-inline').remove()
+    group.append('<span class="help-inline">' +
+                 '<p class="help-block">' + message + '</p>' + '</span>')
+}
 
     var self = {
         validateEmail: function(email) {
@@ -49,13 +57,21 @@ var Validator = function() {
         validateGroup: function(group, field) {
             var name = group.children('span').text();
             if (name.match(/^[a-zA-Z0-9 .:,-]*$/g) === null) {
-                displayError(field, gettext('Groups can only contain ' +
+                displayAnotherError(field, gettext('Groups can only contain ' +
                                             'alphanumeric characters, dashes, ' +
                                             'spaces.'));
                 // HACK: Do this without dirty DOM manipulation.
                 group.children('a.tagit-close').click();
+                
             }
         },
+      /*  validateSkill: function(skill, field) {
+        	var name = group.children('span').text();
+        	if(name.match(/^[a-zA-Z0-9 .:,-]*$/g) === null) {
+        			alert("Hello");
+        			group.children('a.tagit-close').click();
+        			}
+        	},*/
         resetField: function(field) {
             $(field).removeClass('error');
             $(field + ' .errorlist').remove();

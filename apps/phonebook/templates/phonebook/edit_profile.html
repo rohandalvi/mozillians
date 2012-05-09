@@ -37,8 +37,9 @@
                 sub-community.
               {% endtrans %}
             </p>
+	<div class="groups-tagit">
           {{ form.groups.label_tag() }}
-          {{ form.groups }}
+          {{ form.groups }}</div>
           <legend>Skills</legend>
             <p class="field_description">
               {% trans %}
@@ -46,8 +47,9 @@
                 results often with the minimum outlay of time, energy, or both.
               {% endtrans %}
             </p>
+	<div class="skills-tagit"> <!-- I edited here|Rohan -->
           {{ form.skills.label_tag() }}
-          {{ form.skills }}
+          {{ form.skills }}</div>
         </div>
         <div class="tab-pane" id="vouches">
           <div class="control-group">
